@@ -127,9 +127,17 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+resources/*.pth
 
-# checkpoint
+.idea
+*.iml
+*.ckpt
+.git
+.DS_Store
+*.swp
+
+checkpoints
+wandb
+logs
+output
 *.pth
-outputs/
-
-.idea/
