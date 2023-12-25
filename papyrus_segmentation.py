@@ -2,6 +2,7 @@ import argparse
 import glob
 import os
 
+import PIL.Image
 import cv2
 import numpy as np
 import torch
@@ -11,6 +12,9 @@ from groundingdino.util.inference import Model
 from segment_anything import SamPredictor
 
 from LightHQSAM.setup_light_hqsam import setup_model
+
+
+PIL.Image.MAX_IMAGE_PIXELS = 933120000
 
 parser = argparse.ArgumentParser("Grounded-Segment-Anything Demo", add_help=True)
 parser.add_argument("--dataset_path", type=str, required=True, help="path to dataset")
