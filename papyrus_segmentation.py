@@ -100,7 +100,6 @@ for image_path in tqdm.tqdm(image_paths):
     )
 
     # NMS post process
-    print(f"Before NMS: {len(detections.xyxy)} boxes")
     nms_idx = torchvision.ops.nms(
         torch.from_numpy(detections.xyxy),
         torch.from_numpy(detections.confidence),
