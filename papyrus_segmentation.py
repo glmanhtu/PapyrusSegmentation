@@ -122,6 +122,6 @@ for image_path in tqdm.tqdm(image_paths):
     for idx, (mask, box, label, scores) in enumerate(zip(detections.mask, detections.xyxy,  detections.class_id, detections.confidence)):
         masked_img = np.expand_dims(mask.astype(np.uint8), axis=-1) * image
         cropped_img = crop_image(masked_img)
-        out_img_path = os.path.join(output_img_dir, CLASSES[label], f'{idx}_{round(scores, 2)}.jpg')
+        out_img_path = os.path.join(output_img_dir, CLASSES[label], f'{idx}_{str(round(scores, 2))}.jpg')
         os.makedirs(os.path.dirname(out_img_path), exist_ok=True)
         cv2.imwrite(out_img_path, cropped_img)

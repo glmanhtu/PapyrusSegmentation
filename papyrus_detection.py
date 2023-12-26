@@ -95,7 +95,7 @@ for image_path in tqdm.tqdm(image_paths):
             cropped_img = image[box[1]:box[3], box[0]:box[2]].copy()
             if cropped_img is None or cropped_img.size == 0:
                 continue
-            out_img_path = os.path.join(output_img_dir, CLASSES[label], f'{idx}_{round(scores, 2)}.jpg')
+            out_img_path = os.path.join(output_img_dir, CLASSES[label], f'{idx}_{str(round(scores, 2))}.jpg')
             os.makedirs(os.path.dirname(out_img_path), exist_ok=True)
             cv2.imwrite(out_img_path, cropped_img)
         except:
