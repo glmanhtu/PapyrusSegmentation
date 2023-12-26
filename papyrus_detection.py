@@ -89,7 +89,9 @@ for image_path in tqdm.tqdm(image_paths):
     output_img_dir = os.path.splitext(output_img_dir)[0]
 
     for idx, (box, label, scores) in enumerate(zip(detections.xyxy.astype(int),  detections.class_id, detections.confidence)):
-        cropped_img = image[box[1]:box[3], box[0]:box[2]]
+        if (box[3] - box[1]) * (box[2] - box[0]) < 224 * 224:
+            continue
+        cropped_img = image[box[1]:box[3], box[0]:box[2]].copy()
         out_img_path = os.path.join(output_img_dir, CLASSES[label], f'{idx}_{round(scores, 2)}.jpg')
         os.makedirs(os.path.dirname(out_img_path), exist_ok=True)
         cv2.imwrite(out_img_path, cropped_img)
