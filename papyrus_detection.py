@@ -12,7 +12,7 @@ from groundingdino.util.inference import Model
 from segment_anything import SamPredictor
 
 from LightHQSAM.setup_light_hqsam import setup_model
-
+from utils import custom_nms
 
 PIL.Image.MAX_IMAGE_PIXELS = 933120000
 
@@ -37,7 +37,7 @@ grounding_dino_model = Model(model_config_path=GROUNDING_DINO_CONFIG_PATH,
 CLASSES = ["cm ruler", "papyrus"]
 BOX_THRESHOLD = 0.25
 TEXT_THRESHOLD = 0.25
-NMS_THRESHOLD = 0.8
+NMS_THRESHOLD = 0.3
 
 def crop_image(image, pixel_value=0):
     # Remove the zeros padding
@@ -76,6 +76,16 @@ for image_path in tqdm.tqdm(image_paths):
 
     # NMS post process
     nms_idx = torchvision.ops.nms(
+        torch.from_numpy(detections.xyxy),
+        torch.from_numpy(detections.confidence),
+        NMS_THRESHOLD
+    ).numpy().tolist()
+
+    detections.xyxy = detections.xyxy[nms_idx]
+    detections.confidence = detections.confidence[nms_idx]
+    detections.class_id = detections.class_id[nms_idx]
+
+    nms_idx = custom_nms(
         torch.from_numpy(detections.xyxy),
         torch.from_numpy(detections.confidence),
         NMS_THRESHOLD
