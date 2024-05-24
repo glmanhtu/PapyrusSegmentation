@@ -84,7 +84,7 @@ def crop_image(image, pixel_value=0):
     return cropped_image
 
 
-extensions = [".jpg", ".png", ".jpeg"]
+extensions = (".jpg", ".png", ".jpeg")
 image_paths = []
 for root, dirnames, filenames in os.walk(args.dataset_path):
     for filename in filenames:
