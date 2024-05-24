@@ -15,6 +15,7 @@ from utils import custom_nms
 PIL.Image.MAX_IMAGE_PIXELS = 933120000
 
 parser = argparse.ArgumentParser("Grounded-Segment-Anything Demo", add_help=True)
+parser.add_argument("--minsize_fragment", type=int, required=True, default=112)
 parser.add_argument("--dataset_path", type=str, required=True, help="path to dataset")
 parser.add_argument("--output_path", type=str, required=True, help="path to segmented dataset")
 args = parser.parse_args()
@@ -103,7 +104,7 @@ for image_path in tqdm.tqdm(image_paths):
 
     for idx, (box, label, scores) in enumerate(zip(detections.xyxy.astype(int),  detections.class_id, detections.confidence)):
         try:
-            if (box[3] - box[1]) * (box[2] - box[0]) < 224 * 224:
+            if (box[3] - box[1]) * (box[2] - box[0]) < args.minsize_fragment * args.minsize_fragment:
                 continue
             cropped_img = image[box[1]:box[3], box[0]:box[2]].copy()
             if cropped_img is None or cropped_img.size == 0:
