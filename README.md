@@ -1,6 +1,11 @@
 ### Pre-requirements
 ```bash
 pip install -r requirements.txt
+git clone https://github.com/IDEA-Research/Grounded-Segment-Anything.git
+cd Grounded-Segment-Anything
+pip install -e segment_anything
+pip install --no-build-isolation -e GroundingDINO
+cd ..
 ```
 
 Download pretrained models:

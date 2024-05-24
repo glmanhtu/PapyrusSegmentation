@@ -57,7 +57,12 @@ def crop_image(image, pixel_value=0):
     return cropped_image
 
 
-image_paths = glob.glob(os.path.join(args.dataset_path, '**', '*.jpg'), recursive=True)
+extensions = [".jpg", ".png", ".jpeg"]
+image_paths = []
+for root, dirnames, filenames in os.walk(args.dataset_path):
+    for filename in filenames:
+        if filename.lower().endswith(extensions):
+            image_paths.append(os.path.join(root, filename))
 
 for image_path in tqdm.tqdm(image_paths):
 
